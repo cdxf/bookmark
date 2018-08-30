@@ -10,7 +10,7 @@ import java.util.List;
 
 @Controller
 @RestController
-@CrossOrigin
+@CrossOrigin("*")
 public class Api {
 
     private PostDao postDao;
