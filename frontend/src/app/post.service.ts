@@ -1,7 +1,7 @@
 import {Injectable} from '@angular/core';
 import {HttpClient} from '@angular/common/http';
 import {Category, Post} from './Model';
-
+import {environment} from '../environments/environment'
 @Injectable({
   providedIn: 'root'
 })
@@ -26,9 +26,9 @@ export class PostService {
     return false;
   }
   public getPosts() {
-    return this.httpClient.get('http://localhost:8080');
+    return this.httpClient.get(environment.apiUrl);
   }
   public changed(category: Category[]) {
-    return this.httpClient.post('http://localhost:8080/populate', category);
+    return this.httpClient.post(`${environment.apiUrl}populate`, category);
   }
 }
