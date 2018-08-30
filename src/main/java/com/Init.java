@@ -28,38 +28,21 @@ public class Init implements CommandLineRunner {
                     "PRIMARY KEY ( id ) " +
                     ");";
 
-    @Autowired JdbcTemplate jdbcTemplate;
-    @Autowired PostDao postDao;
-    @Autowired CategoryDao categoryDao;
+    final private JdbcTemplate jdbcTemplate;
+    final private PostDao postDao;
+    final private CategoryDao categoryDao;
+
+    @Autowired
+    public Init(JdbcTemplate jdbcTemplate, PostDao postDao, CategoryDao categoryDao) {
+        this.jdbcTemplate = jdbcTemplate;
+        this.postDao = postDao;
+        this.categoryDao = categoryDao;
+    }
 
     @Override
     public void run(String... args) throws Exception {
-        jdbcTemplate.execute(dropTable);
-        jdbcTemplate.execute(dropCat);
         jdbcTemplate.execute(categoryTable);
         jdbcTemplate.execute(postTable);
-
-        Long id = postDao.insertPost(new Post("hehehe", "gsdgsdg", "sdfsdfsd"));
-        System.out.println(id);
-        Long id2 = postDao.insertPost(new Post("fsafsa", "gsdgsdg", "sdfsdfsd"));
-        System.out.println(id2);
-        Long id3 = postDao.insertPost(new Post("fsfasafsa", "gsdgsdg", "sdfsdfsd"));
-        System.out.println(id3);
-        Long cat_id = categoryDao.insert(new Category("Name Cat", "Dessadasda"));
-        postDao.modifyCat(id,cat_id);
-        postDao.modifyCat(id2,cat_id);
-        postDao.modifyCat(id3,cat_id);
-        Long id4 = postDao.insertPost(new Post("he fsfa hehe", "gsdgsdg", "sdfsdfsd"));
-        System.out.println(id);
-        Long id5 = postDao.insertPost(new Post("fsafs  fsa assa", "gsdgsdg", " fas fas as fa"));
-        System.out.println(id2);
-        Long id6 = postDao.insertPost(new Post("fsfafa fas safsa", "fasfas", "sdfs fas fadfsd"));
-        System.out.println(id3);
-        Long cat_id2 = categoryDao.insert(new Category("fasfas Cat", "fasfas"));
-        System.out.println(cat_id);
-        postDao.modifyCat(id4,cat_id2);
-        postDao.modifyCat(id5,cat_id2);
-        postDao.modifyCat(id6,cat_id2);
         System.out.println(categoryDao.get());
     }
 }

@@ -18,18 +18,7 @@ import java.util.Map;
 public class CategoryDao {
     @Autowired private PostDao postDao;
     @Autowired private JdbcTemplate jdbcTemplate;
-    public int populate(List<Category> categories){
-        jdbcTemplate.update("DELETE FROM posts" );
-        jdbcTemplate.update("DELETE FROM categories" );
-        categories.forEach(category -> {
-            Long id = insert(category);
-            category.posts.forEach(post->{
-                var post_id = postDao.insertPost(post);
-                postDao.modifyCat(post_id, id);
-            });
-        });
-        return 0;
-    }
+
     public Long insert(Category cat) {
         KeyHolder keyHolder = new GeneratedKeyHolder();
         jdbcTemplate.update(connection -> {
@@ -68,7 +57,9 @@ public class CategoryDao {
                             cat.setOrder(rse.getLong(4));
                             categories.put(id, cat);
                         }
-                        cat.posts.add(post);
+                        if(post.id != 0 ) {
+                            cat.posts.add(post);
+                        }
                     }
                     return List.copyOf(categories.values());
                 });

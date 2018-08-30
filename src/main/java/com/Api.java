@@ -1,6 +1,5 @@
 package com;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DuplicateKeyException;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
@@ -14,8 +13,15 @@ import java.util.List;
 @CrossOrigin
 public class Api {
 
-    @Autowired private PostDao postDao;
-    @Autowired private CategoryDao categoryDao;
+    private PostDao postDao;
+    private CategoryDao categoryDao;
+    private DbService dbService;
+
+    public Api(PostDao postDao, CategoryDao categoryDao, DbService dbService) {
+        this.postDao = postDao;
+        this.categoryDao = categoryDao;
+        this.dbService = dbService;
+    }
 
     @GetMapping("/posts")
     public List<Post> getPosts() {
@@ -50,11 +56,17 @@ public class Api {
     public Object add(@RequestBody @Validated List<Category> categories, BindingResult result) {
         if (result.hasErrors()) return result.getFieldErrors();
         try {
-            categoryDao.populate(categories);
+            dbService.populate(categories);
             return getCat();
         } catch (DuplicateKeyException e) {
             return "url has already existed";
         }
+    }
+
+    @GetMapping("sampleDatabase")
+    public String sampleDatabase() {
+        dbService.sampleDatabase();
+        return "Completed";
     }
 
     @PostMapping("/modify/{id}")
