@@ -1,0 +1,22 @@
+<div *ngIf="formGroup" [formGroup]="formGroup">
+  <div class="row">
+    <label class="column">Name:
+      <input type="text" [formControlName]="'name'">
+      <span class="alert" *ngIf="formGroup.get('name').dirty && formGroup.get('name').errors">
+        <em>{{formGroup.get('name').errors | json }}</em>
+      </span>
+    </label>
+    <label class="column">Description:
+      <input type="text" [formControlName]="'description'">
+    </label>
+  </div>
+  <div class="row">
+    <label class="column">Url:
+      <input type="text" [formControlName]="'url'">
+      <span class="alert" *ngIf="formGroup.get('url').dirty && formGroup.get('url').errors">
+        <em>{{formGroup.get('url').errors['url'] | json }}</em>
+    </span>
+    </label>
+  
+  </div>
+</div>

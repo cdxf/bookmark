@@ -1,0 +1,33 @@
+.row{
+}
+.padding {
+  padding: 10px 10px 10px 10px;
+}
+.margin{
+  margin: 10px 10px 10px 10px;
+}
+.border{
+  border:#d1d1d1  solid 1px;
+  border-radius: 2px;
+}
+.border:hover{
+  border:#9b4dca  solid 1px;
+}
+legend{
+  padding-left: 10px;
+  padding-right: 10px
+}
+.display{
+  top:20px;
+  position: sticky;
+}
+.btn-group{
+  text-align:right;
+}
+.btn{
+  padding: 0 10px 0 10px;
+  display: inline-block;
+  margin: 2px;
+  height: 3rem;
+  line-height: 3rem;
+}

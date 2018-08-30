@@ -1,0 +1,77 @@
+<section class="container">
+  <div class="row">
+    <div class="column">
+      <h1>Awesome Java</h1>
+    </div>
+  </div>
+  <div class="row">
+    <div class="column">
+      <div class="row">
+        <div class="column">
+        </div>
+      </div>
+    </div>
+    <div class="column"></div>
+  </div>
+  <div class="row">
+    <div class="column"></div>
+    <div class="column">
+      <button class="toggleBtn" (click)="toggleEditPannel()">Toggle Edit Panel</button>
+    </div>
+  </div>
+  <div *ngIf="profileForm" class="row">
+    <div *ngIf="!posts" class="column" style="text-align: center">
+      <app-spinner></app-spinner>
+    </div>
+    <div class="column" >
+      <app-post-detail [categories]="profileForm.get('categories').value"></app-post-detail>
+    </div>
+    <div *ngIf="posts && showEdit" class="column">
+      <div class="row">
+        <app-notify [change]="$saveChange"></app-notify>
+        <div class="column" *ngIf="profileForm.status !== 'VALID'">{{profileForm.status}}</div>
+        <button [disabled]="profileForm.status !== 'VALID'" (click)="submit()">Save Changes</button>
+      </div>
+      <form class="row" [formGroup]="profileForm">
+        <div formArrayName="categories">
+          <div class="row" *ngFor="let f of categories.controls; index as catIndex">
+            <div class="column border padding margin" [formGroupName]="catIndex">
+              <div class="row">
+                <label class="column">Category Name:
+                  <input type="text" [formControlName]="'name'">
+                </label>
+                <label class="column">Category Description:
+                  <input type="text" [formControlName]="'description'">
+                </label>
+              </div>
+              <div class="border padding margin" *ngIf="getPosts(catIndex) as currentPosts" formArrayName="posts">
+                <div class="" *ngFor="let c of currentPosts.controls; index as postIndex">
+                  <div *ngIf="currentPosts.at(postIndex) as currentPost">
+                    <div class="border padding margin" *ngIf="!currentPost.get('deleted').value"
+                         [formGroupName]="postIndex">
+                      <app-form-post [formGroup]="currentPost"></app-form-post>
+                      <div class="btn-group">
+                        <button class="btn" (click)="delete(currentPost)">x</button>
+                        <button class="btn" (click)="move(currentPost,true)">up</button>
+                        <button class="btn" (click)="move(currentPost,false)">down</button>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </form>
+      <div class="row">
+        <button (click)="addCategory()">Add Category</button>
+      </div>
+    </div>
+  </div>
+  <div class="row">
+    <pre>{{ profileForm.value | json}}</pre>
+  </div>
+</section>
+<footer class="container">
+  <p>2018</p>
+</footer>
